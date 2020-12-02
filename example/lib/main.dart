@@ -44,6 +44,8 @@ class HomePage extends StatefulWidget {
   _HomePageState createState() => _HomePageState();
 }
 
+///[with LastStateRestoration] is optional, it's is called if we have a
+///restored state
 class _HomePageState extends State<HomePage> with LastStateRestoration {
   //use this counter to demo the use of StateRestoration
   var _counter = 0;
