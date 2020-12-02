@@ -93,7 +93,7 @@ void main() {
 
     test('didReplace saves route correctly', () async {
       var state = SavedLastStateData.instance;
-      var observer = LastStateNavigationObserver(state);
+      var observer = state.navigationObserver;
 
       await observer.didReplace(oldRoute: _MockRoute("old"), newRoute: null);
       expect(state.lastRoute, null);

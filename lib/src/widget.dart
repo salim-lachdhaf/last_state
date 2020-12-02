@@ -12,8 +12,6 @@ mixin LastStateRestoration<T extends StatefulWidget> on State<T> {
     super.didChangeDependencies();
     var state = SavedLastStateData.instance;
 
-    assert(state != null);
-
     if (state.isRestored && !_didRestoreState) {
       lastStateRestored();
       _didRestoreState = true;
