@@ -38,7 +38,7 @@ void main() {
 
     //rebuild widget to check if mixin restoreLast state worked fine
     await tester.tap(clickFinder);
-    await tester.pump();//increment to 2
+    await tester.pump(); //increment to 2
 
     counterFinder = find.text('2');
   });

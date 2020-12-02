@@ -17,7 +17,7 @@ jobs:
           flutter-version: '1.22.4'
       - run: flutter pub get
       - run: flutter format --dry-run --set-exit-if-changed .
-      - run: flutter analyze
+      - run: dartanalyzer .
         # run  flutter widgets tests  and unit tests
       - run: flutter test --coverage
         # Upload coverage reports to Codecov

@@ -8,20 +8,21 @@ import 'mock.dart';
 void main() {
   setupLastStateMocks();
 
-  tearDownAll((){
+  tearDownAll(() {
     savedState.clear();
     methodCallLog.clear();
     channel.setMockMethodCallHandler(null);
   });
 
-  group('LastStateRouteObserver saves current route [WITH old saved Routes]',(){
-    setUp(() async{
+  group('LastStateRouteObserver saves current route [WITH old saved Routes]',
+      () {
+    setUp(() async {
       savedState = {'LastStateRouteKey': 'old'};
       await SavedLastStateData.init();
       SavedLastStateData.instance.clearDataOnChangeRoute = true;
     });
 
-    tearDown(() async{
+    tearDown(() async {
       await SavedLastStateData.instance.clear();
     });
 
@@ -32,7 +33,10 @@ void main() {
       //check that first action (push,pop,remove,...) is not loaded because it's
       //related to state restore in [SavedLastStateData.init()]
       //because it's already saved
-      await observer.didPush(_MockRoute("newRoute"), _MockRoute("oldRoute"), );
+      await observer.didPush(
+        _MockRoute("newRoute"),
+        _MockRoute("oldRoute"),
+      );
       expect(state.lastRoute, "old");
 
       //after restoring last state new state should be captured
@@ -42,12 +46,12 @@ void main() {
   });
 
   group('LastStateRouteObserver saves current route [NO old saved Routes]', () {
-    setUp(() async{
+    setUp(() async {
       await SavedLastStateData.init();
       await SavedLastStateData.instance.clear();
     });
 
-    tearDown(() async{
+    tearDown(() async {
       await SavedLastStateData.instance.clear();
     });
 
@@ -69,7 +73,10 @@ void main() {
       await observer.didPush(null, _MockRoute("old"));
       expect(state.lastRoute, null);
 
-      await observer.didPush(_MockRoute("new"), _MockRoute("old"), );
+      await observer.didPush(
+        _MockRoute("new"),
+        _MockRoute("old"),
+      );
       expect(state.lastRoute, "new");
     });
 
@@ -91,7 +98,8 @@ void main() {
       await observer.didReplace(oldRoute: _MockRoute("old"), newRoute: null);
       expect(state.lastRoute, null);
 
-      await observer.didReplace(oldRoute: _MockRoute("old"), newRoute: _MockRoute("new"));
+      await observer.didReplace(
+          oldRoute: _MockRoute("old"), newRoute: _MockRoute("new"));
       expect(state.lastRoute, "new");
     });
   });
@@ -107,7 +115,10 @@ class _MockRoute extends PageRoute {
   String get barrierLabel => throw UnimplementedError();
 
   @override
-  Widget buildPage(BuildContext context, Animation<double> animation, Animation<double> secondaryAnimation) {}
+  Widget buildPage(BuildContext context, Animation<double> animation,
+      Animation<double> secondaryAnimation) {
+    return null;
+  }
 
   @override
   bool get maintainState => throw UnimplementedError();

@@ -16,7 +16,7 @@ void main() {
       await SavedLastStateData.init();
     });
 
-    tearDownAll(() async{
+    tearDownAll(() async {
       await SavedLastStateData.instance.clear();
       methodCallLog.clear();
       savedState.clear();

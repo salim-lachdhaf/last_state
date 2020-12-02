@@ -1,8 +1,7 @@
 import 'package:flutter/services.dart';
 
 class FlutterNativeState {
-  static const MethodChannel _channel =
-      const MethodChannel('last_state');
+  static const MethodChannel _channel = const MethodChannel('last_state');
 
   static Future<Map<String, dynamic>> get() async {
     return (await _channel.invokeMapMethod('getState')) ?? {};
