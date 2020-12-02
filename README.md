@@ -23,7 +23,132 @@
 * Restoring data auto or onDemand
 
 ## Example implementation
+```
 
+import 'package:flutter/material.dart';
+import 'package:last_state/last_state.dart';
+
+///FOUR easy steps to use thing plugin
+///1-  first step: init
+///2- second step: setUp navigation observer
+///3- third step: set initial route
+///DONE
+///4- Put or Get data:
+/// `SavedLastStateData.instance.put(key,value)`
+/// `SavedLastStateData.instance.get(key)`
+
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+
+  //1- first step: init
+  await SavedLastStateData.init();
+  runApp(MyApp());
+}
+
+class MyApp extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    debugPrint("rebuild app");
+    // Navigator will set up the correct route history if they are structured in a hierarchical way.
+    // See https://api.flutter.dev/flutter/widgets/Navigator/initialRoute.html
+    return MaterialApp(
+      // Setup an observer that will save the current route into the saved state
+      //2- second step: setUp navigation observer
+      navigatorObservers: [SavedLastStateData.instance.navigationObserver],
+      routes: {
+        DummyPage.route: (context) => DummyPage(),
+      },
+      // restore the route or default to the home page
+      //3- third step: set initial route
+      initialRoute: SavedLastStateData.instance.lastRoute ?? "/",
+      home: HomePage(),
+    );
+  }
+}
+
+class HomePage extends StatefulWidget {
+  @override
+  _HomePageState createState() => _HomePageState();
+}
+
+class _HomePageState extends State<HomePage> with LastStateRestoration {
+  //use this counter to demo the use of StateRestoration
+  var _counter = 0;
+
+  //use this counter to demo a normal uses of lastState (restore on demand)
+  var _counter2 = 0;
+
+  void _increment() {
+    setState(() {
+      _counter++;
+      _counter2 += 5;
+      SavedLastStateData.instance.putInt("counter", _counter);
+      SavedLastStateData.instance.putInt("counter2", _counter2);
+    });
+  }
+
+  @override
+  void lastStateRestored() {
+    print('lastStateRestored');
+    setState(() {
+      _counter = SavedLastStateData.instance.getInt("counter") ?? 0;
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('Plugin example app'),
+      ),
+      body: Center(
+        child: Column(
+          children: <Widget>[
+            Text(
+                'Count (auto restored) = $_counter  <>   Count2 (restore on demand) =$_counter2'),
+            MaterialButton(
+              child: Text("Increment"),
+              onPressed: () => _increment(),
+            ),
+            RaisedButton(
+              child: Text("restore count 2"),
+              onPressed: () {
+                setState(() {
+                  _counter2 =
+                      SavedLastStateData.instance.getInt("counter2") ?? 0;
+                });
+              },
+            ),
+            RaisedButton(
+              child: Text("Go next page"),
+              onPressed: () => Navigator.of(context).pushNamed("/intermediate"),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class DummyPage extends StatelessWidget {
+  static const route = "/intermediate";
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('Another page'),
+      ),
+      body: RaisedButton(
+        child: Text("Onwards"),
+        onPressed: () {},
+      ),
+    );
+  }
+}
+
+
+```
 
 ## What this plugin is for
 Since mobile devices are resource constrained, both Android and iOS use a trick to make it look like apps like always running in
@@ -89,33 +214,6 @@ Your `AppDelegate.swift` in the `ios/Runner` directory should look like this:
    }
 ```
 
-## Using the plugin
-The `SavedStateData` class allows for storing data by key and value. To get access to `SavedStateData` wrap your
-main application in a `SavedState` widget; this is the global application `SavedState` widget. To retrieve the `SavedStateData`
-use `SavedState.of(BuildContext)` or use the `SavedState.builder()` to get the data in a builder.
-
-`SavedState` widgets manage the saved state. When they are disposed, the associated state is also cleared. Usually you want to
-wrap each page in your application that needs to restore some state in a `SavedState` widget. When the page is no longer displayed, the
-`SavedState` associated with the page is automatically cleared. `SavedState` widgets can be nested multiple times, creating nested
-`SavedStateData` that will be cleared when a parent of the `SavedStateData` is cleared, for example, when the `SavedState` widget is removed
-from the widget tree.
-
-## Saving and Restoring state in `StatefulWidgets`
-Most of the time, you'd want your `StatefulWidget`s to update the `SavedState`. Use `SavedState.of(context)` then call `state.putXXX(key, value)` to
-update the state.
-
-To restore state in your `StatefulWidget` add the `StateRestoration` mixin to your `State` class. Then implement the `restoreState(SavedState)`
-method. This method will be called once when your widget is mounted.
-
-## Restoring navigation state
-Restoring the page state is one part of the equation, but when the app is restarted, by default it will start with the default route,
-which is probably not what you want. The plugin provides the `SavedStateRouteObserver` that will save the route to the
-`SavedState` automatically. The saved route can then be retrieved using `restoreRoute(SavedState)` static method. *Important note:* for
-this to work you need to setup your routes in such a way that the `Navigator` will restore them when you [set the `initialRoute` property](https://api.flutter.dev/flutter/widgets/Navigator/initialRoute.html).
-
-Another requirement is that you set a `navigatorKey` on the `MaterialApp`. This is because the tree is rebuilt after the `SavedState` is initialised. When
-rebuilding, the Flutter needs to reuse the existing `Navigator` that receives the `initialRoute`.
-
 ## FAQ
 ### Why do I need this at all? My apps never get killed in the background
 Lucky you! Your phone must have infinite memory :)
@@ -140,16 +238,4 @@ For Android: when the user "exits" the app by pressing back, and at the discreti
 For iOS: users cannot really "exit" an app on iOS, but state is cleared when the user swipes away the app in the app switcher.
 
 ## License
-```Copyright 2019 Little Robots
-
-Licensed under the Apache License, Version 2.0 (the "License");
-you may not use this file except in compliance with the License.
-You may obtain a copy of the License at
-
-   http://www.apache.org/licenses/LICENSE-2.0
-
-Unless required by applicable law or agreed to in writing, software
-distributed under the License is distributed on an "AS IS" BASIS,
-WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-See the License for the specific language governing permissions and
-limitations under the License.
+MIT

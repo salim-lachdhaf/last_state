@@ -1,6 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:last_state/last_state.dart';
 
+///FOUR easy steps to use thing plugin
+///1-  first step: init
+///2- second step: setUp navigation observer
+///3- third step: set initial route
+///DONE
+///4- Put or Get data:
+/// `SavedLastStateData.instance.put(key,value)`
+/// `SavedLastStateData.instance.get(key)`
+
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
@@ -18,7 +27,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       // Setup an observer that will save the current route into the saved state
       //2- second step: setUp navigation observer
-    navigatorObservers: [SavedLastStateData.instance.navigationObserver],
+      navigatorObservers: [SavedLastStateData.instance.navigationObserver],
       routes: {
         DummyPage.route: (context) => DummyPage(),
       },
@@ -45,7 +54,7 @@ class _HomePageState extends State<HomePage> with LastStateRestoration {
   void _increment() {
     setState(() {
       _counter++;
-      _counter2+=5;
+      _counter2 += 5;
       SavedLastStateData.instance.putInt("counter", _counter);
       SavedLastStateData.instance.putInt("counter2", _counter2);
     });
@@ -68,7 +77,8 @@ class _HomePageState extends State<HomePage> with LastStateRestoration {
       body: Center(
         child: Column(
           children: <Widget>[
-            Text('Count (auto restored) = $_counter  <>   Count2 (restore on demand) =$_counter2'),
+            Text(
+                'Count (auto restored) = $_counter  <>   Count2 (restore on demand) =$_counter2'),
             MaterialButton(
               child: Text("Increment"),
               onPressed: () => _increment(),
@@ -77,7 +87,8 @@ class _HomePageState extends State<HomePage> with LastStateRestoration {
               child: Text("restore count 2"),
               onPressed: () {
                 setState(() {
-                  _counter2 = SavedLastStateData.instance.getInt("counter2") ?? 0;
+                  _counter2 =
+                      SavedLastStateData.instance.getInt("counter2") ?? 0;
                 });
               },
             ),
