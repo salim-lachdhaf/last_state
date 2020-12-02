@@ -1,0 +1,28 @@
+name: last_state
+description: Simple and robust state saver which allows restoring state after the app process is killed while in the background.
+version: 0.1.0
+#author: Salim Lachdhaf
+homepage: https://github.com/salim-lachdhaf
+git: https://github.com/salim-lachdhaf/last_state
+repository: https://github.com/salim-lachdhaf/last_state
+
+environment:
+  sdk: ">=2.7.0 <3.0.0"
+  flutter: ">=1.20.0 <2.0.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+
+flutter:
+  plugin:
+    platforms:
+      android:
+        package: salim.dev.last_state
+        pluginClass: LastStatePlugin
+      ios:
+        pluginClass: LastStatePlugin
