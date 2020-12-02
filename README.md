@@ -8,8 +8,11 @@
 </h4>
 
 <p align="center">
-[![Pub](https://img.shields.io/pub/v/last_state.svg)](https://pub.dartlang.org/packages/last_state)
+[![build](https://github.com/salim-lachdhaf/last_state/workflows/build/badge.svg)](https://github.com/salim-lachdhaf/last_state/workflows/build/badge.svg)
+[![Pub](https://img.shields.io/pub/v/last_state.svg?logo=flutter)](https://pub.dartlang.org/packages/last_state)
+[![codecov](https://codecov.io/gh/salim-lachdhaf/last_state/branch/master/graph/badge.svg?token=QSZ3TQ5T6R)](https://codecov.io/gh/salim-lachdhaf/last_state)
 </p>
+
 <p align="center">
   <a href="#key-features">Key Features</a> •
   <a href="https://github.com/salim-lachdhaf/last_state/blob/master/example">Examples</a> •
