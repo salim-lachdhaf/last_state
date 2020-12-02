@@ -8,9 +8,9 @@
 </h4>
 
 <p align="center">
-[![build](https://github.com/salim-lachdhaf/last_state/workflows/build/badge.svg)](https://github.com/salim-lachdhaf/last_state/workflows/build/badge.svg)
-[![Pub](https://img.shields.io/pub/v/last_state.svg?logo=flutter)](https://pub.dartlang.org/packages/last_state)
-[![codecov](https://codecov.io/gh/salim-lachdhaf/last_state/branch/master/graph/badge.svg?token=QSZ3TQ5T6R)](https://codecov.io/gh/salim-lachdhaf/last_state)
+    <a href="https://github.com/salim-lachdhaf/last_state/workflows/build/badge.svg"><img src="https://github.com/salim-lachdhaf/last_state/workflows/build/badge.svg"/></a>
+    <a href="https://pub.dartlang.org/packages/last_state"><img src="https://img.shields.io/pub/v/last_state.svg?logo=flutter"/></a>
+    <a href="https://codecov.io/gh/salim-lachdhaf/last_state"><img src="https://codecov.io/gh/salim-lachdhaf/last_state/branch/master/graph/badge.svg?token=QSZ3TQ5T6R"/></a>
 </p>
 
 <p align="center">
