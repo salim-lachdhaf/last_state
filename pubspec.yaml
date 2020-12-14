@@ -1,6 +1,6 @@
 name: last_state
 description: Simple and robust state saver which allows restoring state after the app process is killed while in the background.
-version: 0.1.0
+version: 0.1.1
 #author: Salim Lachdhaf
 homepage: https://github.com/salim-lachdhaf
 git: https://github.com/salim-lachdhaf/last_state
