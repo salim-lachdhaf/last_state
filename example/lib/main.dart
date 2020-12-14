@@ -29,17 +29,19 @@ class MyApp extends StatelessWidget {
       //2- second step: setUp navigation observer
       navigatorObservers: [SavedLastStateData.instance.navigationObserver],
       routes: {
+        HomePage.route: (context) => HomePage(),
         DummyPage.route: (context) => DummyPage(),
       },
       // restore the route or default to the home page
       //3- third step: set initial route
-      initialRoute: SavedLastStateData.instance.lastRoute ?? "/",
-      home: HomePage(),
+      initialRoute: SavedLastStateData.instance.lastRoute ?? HomePage.route,
     );
   }
 }
 
 class HomePage extends StatefulWidget {
+  static const route = 'home';
+
   @override
   _HomePageState createState() => _HomePageState();
 }
@@ -96,7 +98,7 @@ class _HomePageState extends State<HomePage> with LastStateRestoration {
             ),
             RaisedButton(
               child: Text("Go next page"),
-              onPressed: () => Navigator.of(context).pushNamed("/intermediate"),
+              onPressed: () => Navigator.of(context).pushNamed(DummyPage.route),
             ),
           ],
         ),
@@ -106,7 +108,7 @@ class _HomePageState extends State<HomePage> with LastStateRestoration {
 }
 
 class DummyPage extends StatelessWidget {
-  static const route = "/intermediate";
+  static const route = 'intermediate';
 
   @override
   Widget build(BuildContext context) {
